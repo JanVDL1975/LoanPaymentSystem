@@ -18,6 +18,10 @@ public class Loan {
 
     private BigDecimal remainingBalance;
 
+    public Loan() {
+
+    }
+
     public Long getLoanId() {
         return loanId;
     }

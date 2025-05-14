@@ -22,6 +22,10 @@ public class Payment {
 
     private LocalDate paymentDate = LocalDate.now();
 
+    public Payment() {
+
+    }
+
     public Long getPaymentId() {
         return paymentId;
     }
