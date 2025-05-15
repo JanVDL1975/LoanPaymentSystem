@@ -1,23 +1,27 @@
 package com.bancx.assignment.loanpaymentsystem.loan.dto;
 
+import com.bancx.assignment.loanpaymentsystem.loan.model.LoanStatus;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 
 import java.math.BigDecimal;
-public class LoanRequestDto {
 
-    @NotNull(message = "Loan amount is required")
-    @Positive(message = "Loan amount must be greater than zero")
+public class LoanResponseDto {
     private BigDecimal loanAmount;
-
-
-    @NotNull(message = "Term is required")
-    @Positive(message = "Term must be greater than zero")
     private int term;
+    private LoanStatus status = LoanStatus.ACTIVE;
+    private BigDecimal remainingBalance;
 
-    public LoanRequestDto() {}
+    public LoanResponseDto() {}
 
-    public LoanRequestDto(BigDecimal loanAmount, int term) {
+    public LoanResponseDto(BigDecimal loanAmount, int term, LoanStatus status, BigDecimal remainingBalance) {
+        this.loanAmount = loanAmount;
+        this.term = term;
+        this.status = status;
+        this.remainingBalance = remainingBalance;
+    }
+
+    public LoanResponseDto(BigDecimal loanAmount, int term) {
         this.loanAmount = loanAmount;
         this.term = term;
     }
@@ -32,6 +36,22 @@ public class LoanRequestDto {
 
     public int getTerm() {
         return term;
+    }
+
+    public LoanStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(LoanStatus status) {
+        this.status = status;
+    }
+
+    public BigDecimal getRemainingBalance() {
+        return remainingBalance;
+    }
+
+    public void setRemainingBalance(BigDecimal remainingBalance) {
+        this.remainingBalance = remainingBalance;
     }
 
     public void setTerm(int term) {

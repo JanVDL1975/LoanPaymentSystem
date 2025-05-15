@@ -1,6 +1,7 @@
 package com.bancx.assignment.loanpaymentsystem.loan.controller;
 
 import com.bancx.assignment.loanpaymentsystem.loan.dto.LoanRequestDto;
+import com.bancx.assignment.loanpaymentsystem.loan.dto.LoanResponseDto;
 import com.bancx.assignment.loanpaymentsystem.loan.model.Loan;
 import com.bancx.assignment.loanpaymentsystem.loan.service.LoanService;
 import jakarta.validation.Valid;
@@ -17,12 +18,12 @@ public class LoanController {
     private LoanService loanService;
 
     @PostMapping
-    public ResponseEntity<Loan> createLoan(@Valid @RequestBody LoanRequestDto request) {
+    public ResponseEntity<LoanResponseDto> createLoan(@Valid @RequestBody LoanRequestDto request) {
         return new ResponseEntity<>(loanService.createLoan(request), HttpStatus.CREATED);
     }
 
     @GetMapping("/{loanId}")
-    public ResponseEntity<Loan> getLoan(@PathVariable Long loanId) {
+    public ResponseEntity<LoanResponseDto> getLoan(@PathVariable Long loanId) {
         return ResponseEntity.ok(loanService.getLoanDetails(loanId));
     }
 }

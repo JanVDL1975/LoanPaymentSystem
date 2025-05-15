@@ -13,13 +13,14 @@ import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Optional;
 
 import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-public class PaymentTesting {
+public class PaymentServiceTest {
 
     @Mock
     private LoanRepository loanRepository;
@@ -40,7 +41,6 @@ public class PaymentTesting {
 
         PaymentRequestDto dto = new PaymentRequestDto(1L, new BigDecimal("200.00"));
         Payment expectedPayment = new Payment();
-        expectedPayment.setLoanId(1L);
         expectedPayment.setPaymentAmount(dto.getPaymentAmount());
 
         when(loanRepository.findById(1L)).thenReturn(Optional.of(loan));
@@ -80,9 +80,13 @@ public class PaymentTesting {
         loan.setStatus(LoanStatus.ACTIVE);
 
         PaymentRequestDto dto = new PaymentRequestDto(2L, new BigDecimal("100.00"));
-        Payment expectedPayment = new Payment();
-        expectedPayment.setLoanId(2L);
-        expectedPayment.setPaymentAmount(dto.getPaymentAmount());
+
+        Payment expectedPayment = new Payment(
+                1L, // paymentId (mocked)
+                loan,
+                dto.getPaymentAmount(),
+                LocalDate.now() // you can mock the date if needed
+        );
 
         when(loanRepository.findById(2L)).thenReturn(Optional.of(loan));
         when(paymentRepository.save(any(Payment.class))).thenReturn(expectedPayment);
@@ -90,7 +94,8 @@ public class PaymentTesting {
 
         paymentService.recordPayment(dto);
 
-        assertEquals(BigDecimal.ZERO, loan.getRemainingBalance());
+        assertEquals(0, loan.getRemainingBalance().compareTo(BigDecimal.ZERO));
         assertEquals(LoanStatus.SETTLED, loan.getStatus());
     }
+
 }

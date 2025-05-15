@@ -31,7 +31,7 @@ public class PaymentService {
 
         BigDecimal newBalance = loan.getRemainingBalance().subtract(dto.getPaymentAmount());
         if (newBalance.compareTo(BigDecimal.ZERO) < 0) {
-            throw new IllegalArgumentException("Payment exceeds remaining balance.");
+            throw new IllegalArgumentException("Payment exceeds the remaining balance");
         }
 
         loan.setRemainingBalance(newBalance);

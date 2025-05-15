@@ -64,5 +64,9 @@ public class Payment {
         this.paymentAmount = paymentAmount;
         this.paymentDate = paymentDate;
     }
+
+//    public void setLoanId(long loanId) {
+//        this.loan.setLoanId(loanId);
+//    }
 }
 

@@ -2,6 +2,7 @@ package com.bancx.assignment.loanpaymentsystem.loan.service;
 
 import com.bancx.assignment.loanpaymentsystem.exception.ResourceNotFoundException;
 import com.bancx.assignment.loanpaymentsystem.loan.dto.LoanRequestDto;
+import com.bancx.assignment.loanpaymentsystem.loan.dto.LoanResponseDto;
 import com.bancx.assignment.loanpaymentsystem.loan.model.Loan;
 import com.bancx.assignment.loanpaymentsystem.loan.model.LoanStatus;
 import com.bancx.assignment.loanpaymentsystem.loan.repository.LoanRepository;
@@ -14,18 +15,30 @@ public class LoanService {
     @Autowired
     private LoanRepository loanRepository;
 
-    public Loan createLoan(LoanRequestDto dto) {
+    public LoanResponseDto createLoan(LoanRequestDto dto) {
         Loan loan = new Loan();
         loan.setLoanAmount(dto.getLoanAmount());
         loan.setRemainingBalance(dto.getLoanAmount());
         loan.setTerm(dto.getTerm());
         loan.setStatus(LoanStatus.ACTIVE);
-        return loanRepository.save(loan);
+
+        Loan loanResponse = loanRepository.save(loan);
+        LoanResponseDto response = new LoanResponseDto();
+        response.setLoanAmount(loanResponse.getLoanAmount());
+        response.setTerm(loanResponse.getTerm());
+        response.setRemainingBalance(loanResponse.getRemainingBalance());
+        return response;
     }
 
-    public Loan getLoanDetails(Long loanId) {
-        return loanRepository.findById(loanId)
-                .orElseThrow(() -> new ResourceNotFoundException("Loan not found"));
+    public LoanResponseDto getLoanDetails(Long loanId) {
+        Loan loanResponse = loanRepository.findById(loanId)
+                .orElseThrow(() -> new ResourceNotFoundException("Loan not found"));;
+        LoanResponseDto response = new LoanResponseDto();
+        response.setLoanAmount(loanResponse.getLoanAmount());
+        response.setTerm(loanResponse.getTerm());
+        response.setRemainingBalance(loanResponse.getRemainingBalance());
+        response.setStatus(loanResponse.getStatus());
+        return response;
     }
 }
 
