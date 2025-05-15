@@ -1,6 +1,7 @@
 package com.bancx.assignment.loanpaymentsystem.loan.service.impl;
 
 import com.bancx.assignment.loanpaymentsystem.exception.ResourceNotFoundException;
+import com.bancx.assignment.loanpaymentsystem.loan.constants.LoanMessageConstants;
 import com.bancx.assignment.loanpaymentsystem.loan.dto.LoanRequestDto;
 import com.bancx.assignment.loanpaymentsystem.loan.dto.LoanResponseDto;
 import com.bancx.assignment.loanpaymentsystem.loan.model.Loan;
@@ -33,7 +34,7 @@ public class LoanServiceImpl implements LoanService {
 
     public LoanResponseDto getLoanDetails(Long loanId) {
         Loan loanResponse = loanRepository.findById(loanId)
-                .orElseThrow(() -> new ResourceNotFoundException("Loan not found"));;
+                .orElseThrow(() -> new ResourceNotFoundException(LoanMessageConstants.LOAN_NOT_FOUND));;
         LoanResponseDto response = new LoanResponseDto();
         response.setLoanAmount(loanResponse.getLoanAmount());
         response.setTerm(loanResponse.getTerm());

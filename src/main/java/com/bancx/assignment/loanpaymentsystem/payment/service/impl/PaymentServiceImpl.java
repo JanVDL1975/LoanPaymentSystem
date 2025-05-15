@@ -4,6 +4,7 @@ import com.bancx.assignment.loanpaymentsystem.exception.ResourceNotFoundExceptio
 import com.bancx.assignment.loanpaymentsystem.loan.model.Loan;
 import com.bancx.assignment.loanpaymentsystem.loan.model.LoanStatus;
 import com.bancx.assignment.loanpaymentsystem.loan.repository.LoanRepository;
+import com.bancx.assignment.loanpaymentsystem.payment.constants.PaymentMessageConstants;
 import com.bancx.assignment.loanpaymentsystem.payment.dto.PaymentRequestDto;
 import com.bancx.assignment.loanpaymentsystem.payment.dto.PaymentResponseDto;
 import com.bancx.assignment.loanpaymentsystem.payment.model.Payment;
@@ -26,10 +27,10 @@ public class PaymentServiceImpl implements PaymentService {
 
     public PaymentResponseDto recordPayment(PaymentRequestDto dto) {
         Loan loan = loanRepository.findById(dto.getLoanId())
-                .orElseThrow(() -> new ResourceNotFoundException("Loan not found"));
+                .orElseThrow(() -> new ResourceNotFoundException(PaymentMessageConstants.LOAN_NOT_FOUND));
 
         if (dto.getPaymentAmount().compareTo(loan.getRemainingBalance()) > 0) {
-            throw new IllegalArgumentException("Payment exceeds the remaining balance");
+            throw new IllegalArgumentException(PaymentMessageConstants.PAYMENT_EXCEEDS_REMAINING);
         }
 
         loan.setRemainingBalance(loan.getRemainingBalance().subtract(dto.getPaymentAmount()));

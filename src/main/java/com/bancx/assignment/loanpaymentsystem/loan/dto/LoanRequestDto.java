@@ -1,18 +1,19 @@
 package com.bancx.assignment.loanpaymentsystem.loan.dto;
 
+import com.bancx.assignment.loanpaymentsystem.loan.constants.LoanMessageConstants;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 
 import java.math.BigDecimal;
 public class LoanRequestDto {
 
-    @NotNull(message = "Loan amount is required")
-    @Positive(message = "Loan amount must be greater than zero")
+    @NotNull(message = LoanMessageConstants.LOAN_AMOUNT_REQUIRED)
+    @Positive(message = LoanMessageConstants.LOAN_AMOUNT_GREATER_ZERO)
     private BigDecimal loanAmount;
 
 
-    @NotNull(message = "Term is required")
-    @Positive(message = "Term must be greater than zero")
+    @NotNull(message = LoanMessageConstants.TERM_REQUIRED)
+    @Positive(message = LoanMessageConstants.TERM_GREATER_ZERO)
     private int term;
 
     public LoanRequestDto() {}

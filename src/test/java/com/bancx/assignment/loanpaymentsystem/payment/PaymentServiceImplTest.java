@@ -3,6 +3,7 @@ package com.bancx.assignment.loanpaymentsystem.payment;
 import com.bancx.assignment.loanpaymentsystem.loan.model.Loan;
 import com.bancx.assignment.loanpaymentsystem.loan.model.LoanStatus;
 import com.bancx.assignment.loanpaymentsystem.loan.repository.LoanRepository;
+import com.bancx.assignment.loanpaymentsystem.payment.constants.PaymentMessageConstants;
 import com.bancx.assignment.loanpaymentsystem.payment.dto.PaymentRequestDto;
 import com.bancx.assignment.loanpaymentsystem.payment.dto.PaymentResponseDto;
 import com.bancx.assignment.loanpaymentsystem.payment.model.Payment;
@@ -79,7 +80,7 @@ public class PaymentServiceImplTest {
                 () -> paymentServiceImpl.recordPayment(dto)
         );
 
-        assertEquals("Payment exceeds the remaining balance", exception.getMessage());
+        assertEquals(PaymentMessageConstants.PAYMENT_EXCEEDS_REMAINING, exception.getMessage());
     }
 
     @Test
