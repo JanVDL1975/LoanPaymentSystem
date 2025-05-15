@@ -21,12 +21,12 @@ public class LoanController {
     }
 
     @PostMapping
-    public ResponseEntity<LoanResponseDto> createLoan(@RequestBody LoanRequestDto dto) {
+    public ResponseEntity<LoanResponseDto> createLoan(@Valid @RequestBody LoanRequestDto dto) {
         return new ResponseEntity<>(loanService.createLoan(dto), HttpStatus.CREATED);
     }
 
     @GetMapping("/{loanId}")
-    public ResponseEntity<LoanResponseDto> getLoan(@PathVariable Long loanId) {
+    public ResponseEntity<LoanResponseDto> getLoan(@Valid @PathVariable Long loanId) {
         return new ResponseEntity<>(loanService.getLoanDetails(loanId), HttpStatus.OK);
     }
 }
