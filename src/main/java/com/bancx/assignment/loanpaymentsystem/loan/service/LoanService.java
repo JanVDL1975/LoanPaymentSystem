@@ -1,44 +1,10 @@
 package com.bancx.assignment.loanpaymentsystem.loan.service;
 
-import com.bancx.assignment.loanpaymentsystem.exception.ResourceNotFoundException;
 import com.bancx.assignment.loanpaymentsystem.loan.dto.LoanRequestDto;
 import com.bancx.assignment.loanpaymentsystem.loan.dto.LoanResponseDto;
-import com.bancx.assignment.loanpaymentsystem.loan.model.Loan;
-import com.bancx.assignment.loanpaymentsystem.loan.model.LoanStatus;
-import com.bancx.assignment.loanpaymentsystem.loan.repository.LoanRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
-@Service
-public class LoanService {
-
-    @Autowired
-    private LoanRepository loanRepository;
-
-    public LoanResponseDto createLoan(LoanRequestDto dto) {
-        Loan loan = new Loan();
-        loan.setLoanAmount(dto.getLoanAmount());
-        loan.setRemainingBalance(dto.getLoanAmount());
-        loan.setTerm(dto.getTerm());
-        loan.setStatus(LoanStatus.ACTIVE);
-
-        Loan loanResponse = loanRepository.save(loan);
-        LoanResponseDto response = new LoanResponseDto();
-        response.setLoanAmount(loanResponse.getLoanAmount());
-        response.setTerm(loanResponse.getTerm());
-        response.setRemainingBalance(loanResponse.getRemainingBalance());
-        return response;
-    }
-
-    public LoanResponseDto getLoanDetails(Long loanId) {
-        Loan loanResponse = loanRepository.findById(loanId)
-                .orElseThrow(() -> new ResourceNotFoundException("Loan not found"));;
-        LoanResponseDto response = new LoanResponseDto();
-        response.setLoanAmount(loanResponse.getLoanAmount());
-        response.setTerm(loanResponse.getTerm());
-        response.setRemainingBalance(loanResponse.getRemainingBalance());
-        response.setStatus(loanResponse.getStatus());
-        return response;
-    }
+public interface LoanService {
+    LoanResponseDto createLoan(LoanRequestDto dto);
+    LoanResponseDto getLoanDetails(Long loanId);
 }
 

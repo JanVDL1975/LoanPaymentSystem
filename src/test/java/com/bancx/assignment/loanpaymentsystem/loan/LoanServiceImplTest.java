@@ -4,7 +4,7 @@ import com.bancx.assignment.loanpaymentsystem.loan.dto.LoanResponseDto;
 import com.bancx.assignment.loanpaymentsystem.loan.model.Loan;
 import com.bancx.assignment.loanpaymentsystem.loan.model.LoanStatus;
 import com.bancx.assignment.loanpaymentsystem.loan.repository.LoanRepository;
-import com.bancx.assignment.loanpaymentsystem.loan.service.LoanService;
+import com.bancx.assignment.loanpaymentsystem.loan.service.impl.LoanServiceImpl;
 import com.bancx.assignment.loanpaymentsystem.loan.dto.LoanRequestDto;
 
 import org.junit.jupiter.api.Test;
@@ -19,13 +19,13 @@ import java.math.BigDecimal;
 import java.util.Optional;
 
 @SpringBootTest
-public class LoanServiceTest {
+public class LoanServiceImplTest {
 
     @Mock
     private LoanRepository loanRepository;
 
     @InjectMocks
-    private LoanService loanService;
+    private LoanServiceImpl loanServiceImpl;
 
     @Test
     void testLoanCreationSuccessfully() {
@@ -41,7 +41,7 @@ public class LoanServiceTest {
 
         when(loanRepository.save(any(Loan.class))).thenReturn(loan);
 
-        LoanResponseDto saved = loanService.createLoan(dto);
+        LoanResponseDto saved = loanServiceImpl.createLoan(dto);
 
         assertNotNull(saved);
         assertEquals(new BigDecimal("1000.00"), saved.getRemainingBalance());
@@ -60,7 +60,7 @@ public class LoanServiceTest {
 
         when(loanRepository.findById(1L)).thenReturn(Optional.of(loan));
 
-        LoanResponseDto retrieved = loanService.getLoanDetails(1L);
+        LoanResponseDto retrieved = loanServiceImpl.getLoanDetails(1L);
 
         assertEquals(LoanStatus.SETTLED, retrieved.getStatus());
         assertEquals(BigDecimal.ZERO, retrieved.getRemainingBalance());

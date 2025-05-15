@@ -7,7 +7,7 @@ import com.bancx.assignment.loanpaymentsystem.payment.dto.PaymentRequestDto;
 import com.bancx.assignment.loanpaymentsystem.payment.dto.PaymentResponseDto;
 import com.bancx.assignment.loanpaymentsystem.payment.model.Payment;
 import com.bancx.assignment.loanpaymentsystem.payment.repository.PaymentRepository;
-import com.bancx.assignment.loanpaymentsystem.payment.service.PaymentService;
+import com.bancx.assignment.loanpaymentsystem.payment.service.impl.PaymentServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -21,7 +21,7 @@ import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-public class PaymentServiceTest {
+public class PaymentServiceImplTest {
 
     @Mock
     private LoanRepository loanRepository;
@@ -30,7 +30,7 @@ public class PaymentServiceTest {
     private PaymentRepository paymentRepository;
 
     @InjectMocks
-    private PaymentService paymentService;
+    private PaymentServiceImpl paymentServiceImpl;
 
     @Test
     void testSuccessfulPaymentReducesLoanBalance() {
@@ -54,7 +54,7 @@ public class PaymentServiceTest {
         when(loanRepository.save(any(Loan.class))).thenReturn(loan);
 
         // When: a payment is made
-        PaymentResponseDto result = paymentService.recordPayment(dto);
+        PaymentResponseDto result = paymentServiceImpl.recordPayment(dto);
 
         // Then: the loan balance should be reduced
         assertNotNull(result);
@@ -76,7 +76,7 @@ public class PaymentServiceTest {
 
         IllegalArgumentException exception = assertThrows(
                 IllegalArgumentException.class,
-                () -> paymentService.recordPayment(dto)
+                () -> paymentServiceImpl.recordPayment(dto)
         );
 
         assertEquals("Payment exceeds the remaining balance", exception.getMessage());
@@ -102,7 +102,7 @@ public class PaymentServiceTest {
         when(paymentRepository.save(any(Payment.class))).thenReturn(expectedPayment);
         when(loanRepository.save(any(Loan.class))).thenReturn(loan);
 
-        paymentService.recordPayment(dto);
+        paymentServiceImpl.recordPayment(dto);
 
         assertEquals(0, loan.getRemainingBalance().compareTo(BigDecimal.ZERO));
         assertEquals(LoanStatus.SETTLED, loan.getStatus());

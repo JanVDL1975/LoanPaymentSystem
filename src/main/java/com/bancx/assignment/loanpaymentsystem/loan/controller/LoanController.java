@@ -2,8 +2,8 @@ package com.bancx.assignment.loanpaymentsystem.loan.controller;
 
 import com.bancx.assignment.loanpaymentsystem.loan.dto.LoanRequestDto;
 import com.bancx.assignment.loanpaymentsystem.loan.dto.LoanResponseDto;
-import com.bancx.assignment.loanpaymentsystem.loan.model.Loan;
 import com.bancx.assignment.loanpaymentsystem.loan.service.LoanService;
+import com.bancx.assignment.loanpaymentsystem.loan.service.impl.LoanServiceImpl;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,17 +14,21 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/loans")
 public class LoanController {
 
-    @Autowired
-    private LoanService loanService;
+    private final LoanService loanService;
+
+    public LoanController(LoanService loanService) {
+        this.loanService = loanService;
+    }
 
     @PostMapping
-    public ResponseEntity<LoanResponseDto> createLoan(@Valid @RequestBody LoanRequestDto request) {
-        return new ResponseEntity<>(loanService.createLoan(request), HttpStatus.CREATED);
+    public ResponseEntity<LoanResponseDto> createLoan(@RequestBody LoanRequestDto dto) {
+        return new ResponseEntity<>(loanService.createLoan(dto), HttpStatus.CREATED);
     }
 
     @GetMapping("/{loanId}")
     public ResponseEntity<LoanResponseDto> getLoan(@PathVariable Long loanId) {
-        return ResponseEntity.ok(loanService.getLoanDetails(loanId));
+        return new ResponseEntity<>(loanService.getLoanDetails(loanId), HttpStatus.OK);
     }
 }
+
 
