@@ -4,6 +4,7 @@ import com.bancx.assignment.loanpaymentsystem.loan.model.Loan;
 import com.bancx.assignment.loanpaymentsystem.loan.model.LoanStatus;
 import com.bancx.assignment.loanpaymentsystem.loan.repository.LoanRepository;
 import com.bancx.assignment.loanpaymentsystem.payment.dto.PaymentRequestDto;
+import com.bancx.assignment.loanpaymentsystem.payment.dto.PaymentResponseDto;
 import com.bancx.assignment.loanpaymentsystem.payment.model.Payment;
 import com.bancx.assignment.loanpaymentsystem.payment.repository.PaymentRepository;
 import com.bancx.assignment.loanpaymentsystem.payment.service.PaymentService;
@@ -33,6 +34,7 @@ public class PaymentServiceTest {
 
     @Test
     void testSuccessfulPaymentReducesLoanBalance() {
+        // Given: a loan with an initial balance
         Loan loan = new Loan();
         loan.setLoanId(1L);
         loan.setLoanAmount(new BigDecimal("1000.00"));
@@ -40,19 +42,27 @@ public class PaymentServiceTest {
         loan.setStatus(LoanStatus.ACTIVE);
 
         PaymentRequestDto dto = new PaymentRequestDto(1L, new BigDecimal("200.00"));
-        Payment expectedPayment = new Payment();
-        expectedPayment.setPaymentAmount(dto.getPaymentAmount());
+
+        Payment payment = new Payment();
+        payment.setPaymentId(10L);
+        payment.setLoan(loan);
+        payment.setPaymentAmount(dto.getPaymentAmount());
+        payment.setPaymentDate(LocalDate.now());
 
         when(loanRepository.findById(1L)).thenReturn(Optional.of(loan));
-        when(paymentRepository.save(any(Payment.class))).thenReturn(expectedPayment);
+        when(paymentRepository.save(any(Payment.class))).thenReturn(payment);
         when(loanRepository.save(any(Loan.class))).thenReturn(loan);
 
-        Payment result = paymentService.recordPayment(dto);
+        // When: a payment is made
+        PaymentResponseDto result = paymentService.recordPayment(dto);
 
+        // Then: the loan balance should be reduced
         assertNotNull(result);
-        assertEquals(new BigDecimal("800.00"), loan.getRemainingBalance());
-        assertEquals(LoanStatus.ACTIVE, loan.getStatus());
+        assertEquals(new BigDecimal("800.00"), result.getNewRemainingBalance());
+        assertEquals("ACTIVE", result.getLoanStatus());
+        assertEquals(dto.getPaymentAmount(), result.getPaymentAmount());
     }
+
 
     @Test
     void testOverpaymentThrowsError() {

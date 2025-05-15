@@ -1,10 +1,16 @@
 package com.bancx.assignment.loanpaymentsystem.payment.dto;
 
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.NotNull;
+
 import java.math.BigDecimal;
 
 public class PaymentRequestDto {
-
+    @NotNull
     private Long loanId;
+
+    @NotNull
+    @DecimalMin(value = "0.01", message = "Payment must be positive")
     private BigDecimal paymentAmount;
 
     public PaymentRequestDto() {}

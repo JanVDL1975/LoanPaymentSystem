@@ -1,8 +1,10 @@
 package com.bancx.assignment.loanpaymentsystem.payment.controller;
 
 import com.bancx.assignment.loanpaymentsystem.payment.dto.PaymentRequestDto;
+import com.bancx.assignment.loanpaymentsystem.payment.dto.PaymentResponseDto;
 import com.bancx.assignment.loanpaymentsystem.payment.model.Payment;
 import com.bancx.assignment.loanpaymentsystem.payment.service.PaymentService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +21,8 @@ public class PaymentController {
     private PaymentService paymentService;
 
     @PostMapping
-    public ResponseEntity<Payment> makePayment(@RequestBody PaymentRequestDto dto) {
-        return new ResponseEntity<>(paymentService.recordPayment(dto), HttpStatus.CREATED);
+    public ResponseEntity<PaymentResponseDto> makePayment(@Valid @RequestBody PaymentRequestDto dto) {
+        PaymentResponseDto response = paymentService.recordPayment(dto);
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 }
