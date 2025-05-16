@@ -34,7 +34,7 @@ public class LoanServiceImpl implements LoanService {
 
     public LoanResponseDto getLoanDetails(Long loanId) {
         Loan loanResponse = loanRepository.findById(loanId)
-                .orElseThrow(() -> new ResourceNotFoundException(LoanMessageConstants.LOAN_NOT_FOUND));;
+                .orElseThrow(() -> new ResourceNotFoundException(LoanMessageConstants.LOAN_NOT_FOUND));
         LoanResponseDto response = new LoanResponseDto();
         response.setLoanAmount(loanResponse.getLoanAmount());
         response.setTerm(loanResponse.getTerm());
