@@ -16,6 +16,13 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+/**
+ * Implementation of the {@link PaymentService} interface that contains
+ * the business logic for recording payments towards loans.
+ * <p>
+ * This service verifies payment validity, updates the loan's remaining balance
+ * and status, persists the payment and loan updates, and returns payment details.
+ */
 @Service
 public class PaymentServiceImpl implements PaymentService {
 
@@ -25,6 +32,18 @@ public class PaymentServiceImpl implements PaymentService {
     @Autowired
     private PaymentRepository paymentRepository;
 
+    /**
+     * Records a payment for a loan based on the given payment request.
+     * <p>
+     * Validates that the loan exists and that the payment amount does not exceed
+     * the remaining balance. Updates the loan's remaining balance and status,
+     * saves the payment record, and returns details of the processed payment.
+     *
+     * @param dto the payment request data containing loan ID and payment amount
+     * @return a {@link PaymentResponseDto} containing the recorded payment details
+     * @throws ResourceNotFoundException if the loan is not found by the given ID
+     * @throws IllegalArgumentException  if the payment amount exceeds the remaining balance
+     */
     public PaymentResponseDto recordPayment(PaymentRequestDto dto) {
         Loan loan = loanRepository.findById(dto.getLoanId())
                 .orElseThrow(() -> new ResourceNotFoundException(PaymentMessageConstants.LOAN_NOT_FOUND));
@@ -55,6 +74,5 @@ public class PaymentServiceImpl implements PaymentService {
                 loan.getStatus().toString()
         );
     }
-
 }
 
