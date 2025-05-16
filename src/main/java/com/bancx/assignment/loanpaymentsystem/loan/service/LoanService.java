@@ -1,31 +1,29 @@
 package com.bancx.assignment.loanpaymentsystem.loan.service;
 
-import com.bancx.assignment.loanpaymentsystem.exception.ResourceNotFoundException;
 import com.bancx.assignment.loanpaymentsystem.loan.dto.LoanRequestDto;
-import com.bancx.assignment.loanpaymentsystem.loan.model.Loan;
-import com.bancx.assignment.loanpaymentsystem.loan.model.LoanStatus;
-import com.bancx.assignment.loanpaymentsystem.loan.repository.LoanRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import com.bancx.assignment.loanpaymentsystem.loan.dto.LoanResponseDto;
 
-@Service
-public class LoanService {
+/**
+ * Service interface defining business operations related to loans.
+ *
+ * Provides methods to create new loans and retrieve existing loan details.
+ */
+public interface LoanService {
 
-    @Autowired
-    private LoanRepository loanRepository;
+    /**
+     * Creates a new loan using the provided loan request data.
+     *
+     * @param dto Data transfer object containing loan amount and term.
+     * @return LoanResponseDto containing details of the created loan.
+     */
+    LoanResponseDto createLoan(LoanRequestDto dto);
 
-    public Loan createLoan(LoanRequestDto dto) {
-        Loan loan = new Loan();
-        loan.setLoanAmount(dto.getLoanAmount());
-        loan.setRemainingBalance(dto.getLoanAmount());
-        loan.setTerm(dto.getTerm());
-        loan.setStatus(LoanStatus.ACTIVE);
-        return loanRepository.save(loan);
-    }
-
-    public Loan getLoanDetails(Long loanId) {
-        return loanRepository.findById(loanId)
-                .orElseThrow(() -> new ResourceNotFoundException("Loan not found"));
-    }
+    /**
+     * Retrieves details of a loan by its unique identifier.
+     *
+     * @param loanId The ID of the loan to retrieve.
+     * @return LoanResponseDto containing the loan details.
+     */
+    LoanResponseDto getLoanDetails(Long loanId);
 }
 
