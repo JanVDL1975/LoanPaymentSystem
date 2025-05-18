@@ -18,6 +18,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.math.BigDecimal;
 import java.util.Optional;
 
+/**
+ * Unit tests for the {@link LoanServiceImpl} class.
+ *
+ * This test class uses Mockito to mock dependencies and verifies the behavior of the loan service logic.
+ * It includes tests for successful loan creation and retrieval of a settled loan.
+ */
 @SpringBootTest
 public class LoanServiceImplTest {
 
@@ -27,6 +33,10 @@ public class LoanServiceImplTest {
     @InjectMocks
     private LoanServiceImpl loanServiceImpl;
 
+    /**
+     * Tests that a loan is created successfully with the expected values
+     * and saved through the {@link LoanRepository}.
+     */
     @Test
     void testLoanCreationSuccessfully() {
         LoanRequestDto dto = new LoanRequestDto();
@@ -49,6 +59,9 @@ public class LoanServiceImplTest {
         verify(loanRepository, times(1)).save(any(Loan.class));
     }
 
+    /**
+     * Tests that a settled loan is retrieved correctly with appropriate status and balances.
+     */
     @Test
     void testLoanSettlement() {
         Loan loan = new Loan();
