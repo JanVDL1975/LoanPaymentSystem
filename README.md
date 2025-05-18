@@ -11,7 +11,7 @@ The application has two core domains:
 
 ## Prerequisites:
 
-- Java SDK istalled (Java 17 or later)
+- Java SDK installed (Java 17 or later)
 
 - Apache Maven installed
 
@@ -35,13 +35,19 @@ OR after building:
 
 java -jar target/loanpaymentsystem.jar
 
-## Running the project:
+## Running the tests:
 
 - Open a terminal in your project directory (where pom.xml is located) and run: 
 
 mvn test
 
 ## How to test the APIs
+
+### Base URL
+
+By default, the API is available at:
+
+http://localhost:8080
 
 ### Location and collection name of Postman collection
 
@@ -73,7 +79,151 @@ Navigate to your Postman collection and then "Open":
 
 ![App Screenshot](images/CollectionStucture.jpg)
 
+The collection for testing the API is divided into 2 folders:
+
+- Loans
+
+- Payments
+
+The names of the API calls are created to indicate the intention of the call:
+example: createValidLoan is used for creating a valid loan. 
+
 ## Additional notes
 
+### Tech Stack
+
+- Java 17
+- Spring Boot
+- Spring Data JPA
+- H2 Database (in-memory)
+- Maven
+- JUnit (for testing)
+
 ### H2 in-memory database<br>
+
+NOTE: The in-memory database is only available when the application is running.
+
+
 ![App Screenshot](images/H2Setup.jpg)
+
+The in memory database can be accessed via:
+
+http://localhost:8080/h2-console
+
+The JDBC URL needs to be set to:
+
+jdbc:h2:mem:loanpaymentdb
+
+It will then be possible to connect to the database.
+
+
+# 📘 BancX API Examples
+
+This document provides example API calls for interacting with the BancX loan and payment services.
+
+---
+
+## 🚀 Create a Valid Loan
+
+**POST** `/loans`
+
+```http
+POST http://localhost:8080/loans
+Content-Type: application/json
+
+{
+  "loanAmount": 1000,
+  "term": 12
+}
+```
+
+---
+
+## ⚠️ Create an Invalid Loan (Missing Term)
+
+**POST** `/loans`
+
+```http
+POST http://localhost:8080/loans
+Content-Type: application/json
+
+{
+  "loanAmount": 1000
+}
+```
+
+---
+
+## ⚠️ Create an Invalid Loan (Missing Amount)
+
+**POST** `/loans`
+
+```http
+POST http://localhost:8080/loans
+Content-Type: application/json
+
+{
+  "term": 12
+}
+```
+
+---
+
+## 📄 Get Loan Details by ID
+
+**GET** `/loans/{id}`
+
+```http
+GET http://localhost:8080/loans/10
+```
+
+---
+
+## 💸 Make a Payment Exceeding Loan Amount
+
+**POST** `/payments`
+
+```http
+POST http://localhost:8080/payments
+Content-Type: application/json
+
+{
+  "loanId": 1,
+  "paymentAmount": 1200
+}
+```
+
+---
+
+## ✅ Make a Full Payment on Loan
+
+**POST** `/payments`
+
+```http
+POST http://localhost:8080/payments
+Content-Type: application/json
+
+{
+  "loanId": 1,
+  "paymentAmount": 1000
+}
+```
+
+---
+
+## 💵 Make a Partial Payment on Loan
+
+**POST** `/payments`
+
+```http
+POST http://localhost:8080/payments
+Content-Type: application/json
+
+{
+  "loanId": 1,
+  "paymentAmount": 500
+}
+```
+
+---
+
