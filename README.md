@@ -7,8 +7,10 @@ The application has two core domains:
 
 2. Payments: Handling payments towards loans.
 
+---
 ## How to build and run the application
 
+---
 ## Prerequisites:
 
 - Java SDK installed (Java 17 or later)
@@ -19,12 +21,14 @@ The application has two core domains:
 
 - pom.xml file exists in the project root.
 
+---
 ## Building the project:
 
 - Open a terminal in your project directory (where pom.xml is located) and run: 
 
 mvn clean install
 
+---
 ## Running the project:
 
 - Open a terminal in your project directory (where pom.xml is located) and run: 
@@ -35,20 +39,27 @@ OR after building:
 
 java -jar target/loanpaymentsystem.jar
 
+---
 ## Running the tests:
 
 - Open a terminal in your project directory (where pom.xml is located) and run: 
 
 mvn test
 
+---
+
+---
+
 ## How to test the APIs
 
+---
 ### Base URL
 
 By default, the API is available at:
 
 http://localhost:8080
 
+---
 ### Location and collection name of Postman collection
 
 You can test the API using the provided Postman collection:
@@ -58,6 +69,7 @@ You can test the API using the provided Postman collection:
 The Postman collection is available under the following:<br>
 src/test/postman
 
+---
 ### Importing the collection
 
 Select the main menu: <br>
@@ -75,6 +87,7 @@ Navigate to your Postman collection and then "Open":
 
 ![App Screenshot](images/SelectAndOpen.jpg)
 
+---
 ### Collection Structure
 
 ![App Screenshot](images/CollectionStucture.jpg)
@@ -88,6 +101,10 @@ The collection for testing the API is divided into 2 folders:
 The names of the API calls are created to indicate the intention of the call:
 example: createValidLoan is used for creating a valid loan. 
 
+---
+
+---
+
 ## Additional notes
 
 ### Tech Stack
@@ -98,6 +115,8 @@ example: createValidLoan is used for creating a valid loan.
 - H2 Database (in-memory)
 - Maven
 - JUnit (for testing)
+
+---
 
 ### H2 in-memory database<br>
 
@@ -115,6 +134,8 @@ The JDBC URL needs to be set to:
 jdbc:h2:mem:loanpaymentdb
 
 It will then be possible to connect to the database.
+
+---
 
 
 # 📘 BancX API Examples
