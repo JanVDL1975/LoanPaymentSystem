@@ -1,11 +1,73 @@
 # LoanPaymentSystem
-This repo implements a loan payment system in a single Spring Boot application.
+# 🏦 Loan Payment System
 
-The application has two core domains:
+This repository implements a simple loan payment system within a single **Spring Boot** application.
 
-1. Loan domain: Handles the loan creation and retrieval.
+The application provides RESTful APIs for creating loans and recording payments. It enforces business rules such as loan validation, payment processing, and automatic loan settlement.
 
-2. Payments: Handling payments towards loans.
+---
+
+## 📦 Features
+
+- Create and retrieve loans
+- Record payments towards existing loans
+- Prevent overpayment
+- Auto-settle loans when fully paid
+- Unit-tested business logic
+
+---
+
+## 🧱 Core Domains
+
+### 1. Loan Domain
+
+Handles loan creation and retrieval.
+
+#### Endpoints
+
+- `POST /loans`:  
+  Creates a new loan with a specified loan amount and term.
+
+- `GET /loans/{loanId}`:  
+  Retrieves loan details by ID, including:
+  - Loan amount  
+  - Remaining balance  
+  - Status (e.g., ACTIVE, SETTLED)
+
+---
+
+### 2. Payments Domain
+
+Handles payments made towards existing loans.
+
+#### Endpoint
+
+- `POST /payments`:  
+  Records a payment by providing:
+  - `loanId`
+  - `paymentAmount`
+
+---
+
+## 📐 Business Logic
+
+- A loan must include a **valid amount** and **term**; both are validated at creation.
+- Payments are deducted from the remaining loan balance.
+- **Overpayments** (amount > remaining balance) result in an error.
+- Loans that are paid off are automatically marked as **SETTLED**.
+
+---
+
+## ✅ Unit Tests
+
+The application includes unit tests that verify the following:
+
+- ✅ Loan creation and persistence in the database  
+- ✅ Payment processing and balance updates  
+- ✅ Overpayment detection and error handling  
+- ✅ Automatic transition to `SETTLED` state when loan is paid in full
+
+---
 
 ---
 ## How to build and run the application
