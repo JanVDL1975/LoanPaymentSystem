@@ -75,14 +75,17 @@ src/test/postman
 Select the main menu: <br>
 ![App Screenshot](images/MainMenu.jpg)
 
+---
 Select importing from the main menu:
 
 ![App Screenshot](images/PostmanImport.jpg)
 
+---
 A selector will be shown where you can drag and drop the Postman collection file or select "files":
 
 ![App Screenshot](images/ImportSelection.jpg)
 
+---
 Navigate to your Postman collection and then "Open":
 
 ![App Screenshot](images/SelectAndOpen.jpg)
